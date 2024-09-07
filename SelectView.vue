@@ -14,7 +14,14 @@
 			<n-card title="选中内容">
 				{{ store.text }}
 			</n-card>
-			<n-input v-model:value="store.text" type="text" placeholder="选中内容" />
+			<n-input
+				v-model:value="store.result"
+				type="textarea"
+				placeholder="转换结果"
+				:autosize="{
+					minRows: 3,
+				}"
+			/>
 		</n-config-provider>
 	</div>
 </template>

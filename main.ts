@@ -10,6 +10,7 @@ import {
 } from "obsidian";
 import { ExampleView, VIEW_TYPE_EXAMPLE } from "./view";
 import { store } from "store";
+import { Convert } from "TextConvert";
 
 // Remember to rename these classes and interfaces!
 
@@ -109,13 +110,15 @@ export default class MyPlugin extends Plugin {
 			if (this.app.workspace.activeEditor?.file == undefined){
 				return;
 			}
-			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-			if (view) {
-				console.log(view.getDisplayText());
-			}
+			// const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+			// if (view) {
+			// 	console.log(view.getDisplayText());
+			// 	console.log(view.file?.basename);
+			// }
 			if (selection && selection.toString().trim() !== "") {
 				// new Notice(`Selected text: ${selection.toString()}`);
 				store.text = selection.toString();
+				store.result = Convert(selection.toString());
 			}
 		});
 	}

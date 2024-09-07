@@ -1,7 +1,8 @@
 import { reactive } from 'vue';
 
 const store = reactive({
-    text: 'gaofeng'
+    text: '',
+	result: ''
 });
 
 export { store };
