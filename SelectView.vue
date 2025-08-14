@@ -1,38 +1,50 @@
 <template>
 	<div id="container">
-		<n-config-provider :theme="theme">
-			<n-card>
-				<n-space>
-					<n-button type="primary" @click="theme = darkTheme">
-						深色
-					</n-button>
-					<n-button type="success" @click="theme = null">
-						浅色
-					</n-button>
-				</n-space>
-			</n-card>
-			<n-card title="选中内容">
-				{{ store.text }}
-			</n-card>
-			<n-input
-				v-model:value="store.result"
-				type="textarea"
-				placeholder="转换结果"
-				:autosize="{
-					minRows: 3,
-				}"
-			/>
+		<n-config-provider :theme-overrides="themeOverrides">
+			<n-space vertical>
+				<div>选中内容</div>
+				<n-input v-model:value="store.text" readonly />
+				<div>转换结果</div>
+				<n-input
+					v-model:value="store.result"
+					type="textarea"
+					readonly
+				/>
+			</n-space>
 		</n-config-provider>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { darkTheme } from "naive-ui";
-import type { GlobalTheme } from "naive-ui";
+import type { GlobalTheme, GlobalThemeOverrides } from "naive-ui";
 import { store } from "./store";
 
-const theme = ref<GlobalTheme | null>(null);
+function getDefaultColor() {
+	let button = document.body.createEl("button", {
+		cls: "mod-cta",
+		attr: { style: "width: 0px; height: 0px;" },
+	});
+	let color = getComputedStyle(button, null).getPropertyValue(
+		"background-color"
+	);
+	button.remove();
+	return color;
+}
+var color = getDefaultColor();
+const newPrimaryColor = getComputedStyle(
+	document.documentElement
+).getPropertyValue("--background-primary");
+const themeOverrides: GlobalThemeOverrides = {
+	common: {
+		primaryColor: "#442200",
+	},
+	Button: {
+		textColor: "#FFFF00",
+	},
+	Card: {
+		color: newPrimaryColor,
+	},
+};
 </script>
-
-<style></style>

@@ -31,10 +31,10 @@ export default class MyPlugin extends Plugin {
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon(
 			"dice",
-			"Sample Plugin",
+			"Notice test from hex convert",
 			(evt: MouseEvent) => {
 				// Called when the user clicks the icon.
-				new Notice("This is a notice!");
+				new Notice("This is a notice from hex convert plugin!");
 			}
 		);
 		// Perform additional things with the ribbon
@@ -105,9 +105,8 @@ export default class MyPlugin extends Plugin {
 		});
 
 		this.registerDomEvent(document, "selectionchange", () => {
-
 			const selection = document.getSelection();
-			if (this.app.workspace.activeEditor?.file == undefined){
+			if (this.app.workspace.activeEditor?.file == undefined) {
 				return;
 			}
 			// const view = this.app.workspace.getActiveViewOfType(MarkdownView);
@@ -121,6 +120,7 @@ export default class MyPlugin extends Plugin {
 				store.result = Convert(selection.toString());
 			}
 		});
+		this.activateView();
 	}
 
 	onunload() {
