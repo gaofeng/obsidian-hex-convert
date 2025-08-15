@@ -1,16 +1,11 @@
 <template>
 	<div id="container">
-		<n-config-provider :theme="theme"
-						   >
+		<n-config-provider :theme="theme">
 			<n-space vertical>
 				<div>选中内容</div>
 				<n-input v-model:value="store.text" readonly />
 				<div>转换结果</div>
-				<n-input
-					v-model:value="store.result"
-					type="textarea"
-					readonly
-				/>
+				<n-input v-model:value="store.result" type="textarea" readonly />
 			</n-space>
 		</n-config-provider>
 	</div>
@@ -24,7 +19,7 @@ import { store } from "./store";
 
 // 检查 Obsidian 当前主题
 function isDark() {
-    return document.body.classList.contains('theme-dark')
+	return document.body.classList.contains('theme-dark')
 }
 
 const lightThemeOverrides = {
@@ -40,11 +35,11 @@ const darkThemeOverrides = {
 	// 	textColor2: '#FFFFFF'
 	// }
 }
-let theme = ref<GlobalTheme|null>(isDark() ? darkTheme : null)
+let theme = ref<GlobalTheme | null>(isDark() ? darkTheme : null)
 
 // 监听主题变化
 const observer = new MutationObserver(() => {
-    theme.value = isDark() ? darkTheme : null
+	theme.value = isDark() ? darkTheme : null
 })
 observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
 </script>

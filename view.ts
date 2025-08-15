@@ -1,7 +1,14 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { App, createApp } from "vue";
 import SelectView from "SelectView.vue";
-import { create, NButton, NCard, NConfigProvider, NInput, NSpace } from "naive-ui";
+import {
+	create,
+	NButton,
+	NCard,
+	NConfigProvider,
+	NInput,
+	NSpace,
+} from "naive-ui";
 
 export const VIEW_TYPE_EXAMPLE = "example-view";
 
@@ -26,10 +33,10 @@ export class ExampleView extends ItemView {
 			cls: "quiet-outline",
 		});
 		const naive = create({
-			components: [NButton, NSpace, NConfigProvider, NCard , NInput],
-		  })
+			components: [NButton, NSpace, NConfigProvider, NCard, NInput],
+		});
 		this.vueApp = createApp(SelectView);
-		this.vueApp.use(naive)
+		this.vueApp.use(naive);
 		this.vueApp.mount(mountPoint);
 	}
 
