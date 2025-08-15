@@ -7,33 +7,29 @@
 				<div>转换结果</div>
 				<n-input v-model:value="store.result" type="textarea" readonly />
 			</n-space>
+			<n-button @click="onButtonClick">Test</n-button>
 		</n-config-provider>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { inject, ref } from "vue";
 import { darkTheme } from "naive-ui";
-import type { GlobalTheme, GlobalThemeOverrides } from "naive-ui";
+import type { GlobalTheme } from "naive-ui";
 import { store } from "./store";
+
+const handleButton = inject<(data: string) => void>('handleButton');
+
+const onButtonClick = () => {
+  if (handleButton) {
+    // 调用注入的方法
+    handleButton('Hello from Vue!');
+  }
+};
 
 // 检查 Obsidian 当前主题
 function isDark() {
 	return document.body.classList.contains('theme-dark')
-}
-
-const lightThemeOverrides = {
-	// common: {
-	// 	primaryColor: '#000000',
-	// 	textColor2: '#000000'
-	// }
-}
-
-const darkThemeOverrides = {
-	// common: {
-	// 	primaryColor: '#FFFFFF',
-	// 	textColor2: '#FFFFFF'
-	// }
 }
 let theme = ref<GlobalTheme | null>(isDark() ? darkTheme : null)
 

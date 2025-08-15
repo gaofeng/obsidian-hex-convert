@@ -37,8 +37,13 @@ export class ExampleView extends ItemView {
 		});
 		this.vueApp = createApp(SelectView);
 		this.vueApp.use(naive);
+		this.vueApp.provide('handleButton', this.handleButtonClicked.bind(this));
 		this.vueApp.mount(mountPoint);
 	}
+
+	private handleButtonClicked(data: string) {
+        console.log("in view.ts: " + data);
+    }
 
 	async onClose() {
 		// Nothing to clean up.
