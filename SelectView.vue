@@ -1,6 +1,7 @@
 <template>
 	<div id="container">
-		<n-config-provider :theme-overrides="themeOverrides">
+		<n-config-provider :theme="theme"
+						   >
 			<n-space vertical>
 				<div>选中内容</div>
 				<n-input v-model:value="store.text" readonly />
@@ -21,30 +22,29 @@ import { darkTheme } from "naive-ui";
 import type { GlobalTheme, GlobalThemeOverrides } from "naive-ui";
 import { store } from "./store";
 
-function getDefaultColor() {
-	let button = document.body.createEl("button", {
-		cls: "mod-cta",
-		attr: { style: "width: 0px; height: 0px;" },
-	});
-	let color = getComputedStyle(button, null).getPropertyValue(
-		"background-color"
-	);
-	button.remove();
-	return color;
+// 检查 Obsidian 当前主题
+function isDark() {
+    return document.body.classList.contains('theme-dark')
 }
-var color = getDefaultColor();
-const newPrimaryColor = getComputedStyle(
-	document.documentElement
-).getPropertyValue("--background-primary");
-const themeOverrides: GlobalThemeOverrides = {
-	common: {
-		primaryColor: "#442200",
-	},
-	Button: {
-		textColor: "#FFFF00",
-	},
-	Card: {
-		color: newPrimaryColor,
-	},
-};
+
+const lightThemeOverrides = {
+	// common: {
+	// 	primaryColor: '#000000',
+	// 	textColor2: '#000000'
+	// }
+}
+
+const darkThemeOverrides = {
+	// common: {
+	// 	primaryColor: '#FFFFFF',
+	// 	textColor2: '#FFFFFF'
+	// }
+}
+let theme = ref<GlobalTheme|null>(isDark() ? darkTheme : null)
+
+// 监听主题变化
+const observer = new MutationObserver(() => {
+    theme.value = isDark() ? darkTheme : null
+})
+observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
 </script>
