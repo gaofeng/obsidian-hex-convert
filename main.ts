@@ -9,8 +9,7 @@ import {
 	Setting,
 } from "obsidian";
 import { ExampleView, VIEW_TYPE_EXAMPLE } from "./view";
-import { store } from "store";
-import { Convert } from "TextConvert";
+import useHexConvertStore from "HexConvertStore"
 
 // Remember to rename these classes and interfaces!
 
@@ -116,11 +115,11 @@ export default class MyPlugin extends Plugin {
 			// }
 			if (selection && selection.toString().trim() !== "") {
 				// new Notice(`Selected text: ${selection.toString()}`);
-				store.text = selection.toString();
-				store.result = Convert(selection.toString());
+				const hexStore = useHexConvertStore();
+				hexStore.setText(selection.toString())
 			}
 		});
-		this.activateView();
+		// this.activateView();
 	}
 
 	onunload() {
@@ -143,17 +142,22 @@ export default class MyPlugin extends Plugin {
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_EXAMPLE);
 
 		// Check if getRightLeaf returns null before calling setViewState
-		const rightLeaf = this.app.workspace.getRightLeaf(false);
-		if (rightLeaf) {
-			await rightLeaf.setViewState({
-				type: VIEW_TYPE_EXAMPLE,
-				active: true,
-			});
+		try{
+			const rightLeaf = this.app.workspace.getRightLeaf(false);
+			if (rightLeaf) {
+				await rightLeaf.setViewState({
+					type: VIEW_TYPE_EXAMPLE,
+					active: true,
+				});
+				this.app.workspace.revealLeaf(
+					this.app.workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE)[0]
+				);
+			}
+		} catch (error) {
+			console.error("Error activating view:", error);
+			new Notice("Failed to activate view: " + error.message);
 		}
 
-		this.app.workspace.revealLeaf(
-			this.app.workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE)[0]
-		);
 	}
 }
 

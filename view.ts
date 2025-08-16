@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { IconName, ItemView, WorkspaceLeaf } from "obsidian";
 import { App, createApp } from "vue";
 import SelectView from "SelectView.vue";
 import {
@@ -10,7 +10,7 @@ import {
 	NSpace,
 } from "naive-ui";
 
-export const VIEW_TYPE_EXAMPLE = "example-view";
+export const VIEW_TYPE_EXAMPLE = "view-hex-convert";
 
 export class ExampleView extends ItemView {
 	vueApp: App;
@@ -22,15 +22,19 @@ export class ExampleView extends ItemView {
 		return VIEW_TYPE_EXAMPLE;
 	}
 
+	getIcon(): IconName {
+		return "dice";		
+	}
+
 	getDisplayText() {
-		return "Example view 高峰";
+		return "十六进制转换页面";
 	}
 
 	async onOpen() {
 		const container = this.containerEl.children[1];
 		container.empty();
 		const mountPoint = container.createEl("div", {
-			cls: "quiet-outline",
+			cls: "hex-convert-mount-point",
 		});
 		const naive = create({
 			components: [NButton, NSpace, NConfigProvider, NCard, NInput],

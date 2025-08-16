@@ -3,9 +3,9 @@
 		<n-config-provider :theme="theme">
 			<n-space vertical>
 				<div>选中内容</div>
-				<n-input v-model:value="store.text" readonly />
+				<n-input v-model:value="hexStore.text" readonly />
 				<div>转换结果</div>
-				<n-input v-model:value="store.result" type="textarea" readonly />
+				<n-input v-model:value="hexStore.result" type="textarea" readonly />
 			</n-space>
 			<n-button @click="onButtonClick">Test</n-button>
 		</n-config-provider>
@@ -16,7 +16,9 @@
 import { inject, ref } from "vue";
 import { darkTheme } from "naive-ui";
 import type { GlobalTheme } from "naive-ui";
-import { store } from "./store";
+import useHexConvertStore from "HexConvertStore";
+
+const hexStore = useHexConvertStore()
 
 const handleButton = inject<(data: string) => void>('handleButton');
 

@@ -1,4 +1,22 @@
-export function Convert(text: string): string {
+import { readonly, ref } from 'vue'
+
+const text = ref<string>()
+const result = ref<string>()
+const useHexConvertStore = () => {
+
+	const setText = (selectedText: string) => {
+		text.value = selectedText
+		result.value = Convert(selectedText)
+	}
+	return {
+		setText,
+		text: readonly(text),
+		result: readonly(result)
+	}
+}
+
+
+function Convert(text: string): string {
 	// 判断是否为 Hex 字符串（包含空格和制表符）
 	const isHexWithSpacesOrTabs = /^[0-9a-fA-F\s\t]+$/.test(text);
 
@@ -36,3 +54,4 @@ export function Convert(text: string): string {
 			.join("");
 	}
 }
+export default useHexConvertStore;
