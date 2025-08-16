@@ -83,6 +83,37 @@ export default class MyPlugin extends Plugin {
 			},
 		});
 
+		this.addCommand({
+			id: 'format-hex-string',
+			name: 'Format Hex String',
+			editorCallback: (editor: Editor, view: MarkdownView) => {
+				// 获取选中的文本
+				const sel = editor.getSelection();
+
+				if (!sel) return;
+				// 检查是否以换行符结尾
+				const endsWithNewline = sel.endsWith('\n');
+				// 格式化选中的 hex 字符串
+				let formattedHex = sel
+					.trim() // 去掉可能的空格
+					.replace(/[^0-9A-Fa-f]/g, '') // 移除非十六进制字符
+					.match(/.{2}/g) // 将字符串拆分为每两位一个字节
+					?.join(' '); // 以空格分隔每个字节
+
+				// 如果格式化成功，替换选中的文本
+				if (formattedHex) {
+					if (endsWithNewline) {
+						formattedHex += ' 0x0A'; // 保留换行符（0x0A）在最后
+					}
+					editor.replaceSelection(formattedHex);
+					new Notice(`已将${sel}格式化为${formattedHex}`);
+				} else {
+					new Notice("Invalid hex string!");
+				}
+			},
+		});
+
+
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
@@ -99,8 +130,8 @@ export default class MyPlugin extends Plugin {
 
 		//view example
 		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => {
-				return new ExampleView(leaf);
-			}
+			return new ExampleView(leaf);
+		}
 		);
 
 		this.addRibbonIcon("view", "Activate view", () => {
@@ -146,7 +177,7 @@ export default class MyPlugin extends Plugin {
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_EXAMPLE);
 
 		// Check if getRightLeaf returns null before calling setViewState
-		try{
+		try {
 			const rightLeaf = this.app.workspace.getRightLeaf(false);
 			if (rightLeaf) {
 				await rightLeaf.setViewState({
