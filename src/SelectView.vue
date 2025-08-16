@@ -16,7 +16,7 @@
 import { inject, ref } from "vue";
 import { darkTheme } from "naive-ui";
 import type { GlobalTheme } from "naive-ui";
-import useHexConvertStore from "HexConvertStore";
+import useHexConvertStore from "src/HexConvertStore";
 
 const hexStore = useHexConvertStore()
 

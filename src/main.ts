@@ -8,8 +8,9 @@ import {
 	PluginSettingTab,
 	Setting,
 } from "obsidian";
+
 import { ExampleView, VIEW_TYPE_EXAMPLE } from "./view";
-import useHexConvertStore from "HexConvertStore"
+import useHexConvertStore from "src/HexConvertStore"
 
 // Remember to rename these classes and interfaces!
 

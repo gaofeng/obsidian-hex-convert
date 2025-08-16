@@ -1,6 +1,6 @@
 import { IconName, ItemView, WorkspaceLeaf } from "obsidian";
 import { App, createApp } from "vue";
-import SelectView from "SelectView.vue";
+import SelectView from "./SelectView.vue";
 import {
 	create,
 	NButton,
