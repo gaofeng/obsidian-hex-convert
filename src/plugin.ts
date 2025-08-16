@@ -98,17 +98,20 @@ export default class MyPlugin extends Plugin {
 		);
 
 		//view example
-		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => new ExampleView(leaf));
+		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => {
+				return new ExampleView(leaf);
+			}
+		);
 
 		this.addRibbonIcon("view", "Activate view", () => {
 			this.activateView();
 		});
 
 		this.registerDomEvent(document, "selectionchange", () => {
-			const selection = document.getSelection();
 			if (this.app.workspace.activeEditor?.file == undefined) {
 				return;
 			}
+			const selection = document.getSelection();
 			// const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 			// if (view) {
 			// 	console.log(view.getDisplayText());

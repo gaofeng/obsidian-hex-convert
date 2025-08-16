@@ -3,11 +3,14 @@
 		<n-config-provider :theme="theme">
 			<n-space vertical>
 				<div>选中内容</div>
-				<n-input v-model:value="hexStore.text" readonly />
+				<n-input v-model:value="hexStore.text.value" type="textarea" readonly />
+				<div  v-if="hexStore.isHex.value" >格式化后</div>
+				<n-input v-model:value="hexStore.formatedHexString.value" v-if="hexStore.isHex.value" type="textarea" readonly />
 				<div>转换结果({{ hexStore.resultByteCount }})</div>
-				<n-input v-model:value="hexStore.result" type="textarea" readonly />
+				<n-input v-model:value="hexStore.result.value" type="textarea" readonly />
+				
 			</n-space>
-			<n-button @click="onButtonClick">Test</n-button>
+			<n-button @click="onButtonClick('hello gaofeng')">Test</n-button>
 		</n-config-provider>
 	</div>
 </template>
@@ -22,11 +25,11 @@ const hexStore = useHexConvertStore()
 
 const handleButton = inject<(data: string) => void>('handleButton');
 
-const onButtonClick = () => {
-  if (handleButton) {
-    // 调用注入的方法
-    handleButton('Hello from Vue!');
-  }
+const onButtonClick = (result: string) => {
+	if (handleButton) {
+		// 调用注入的方法
+		handleButton(result);
+	}
 };
 
 // 检查 Obsidian 当前主题
