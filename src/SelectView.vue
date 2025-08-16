@@ -4,7 +4,7 @@
 			<n-space vertical>
 				<div>选中内容</div>
 				<n-input v-model:value="hexStore.text" readonly />
-				<div>转换结果</div>
+				<div>转换结果({{ hexStore.resultByteCount }})</div>
 				<n-input v-model:value="hexStore.result" type="textarea" readonly />
 			</n-space>
 			<n-button @click="onButtonClick">Test</n-button>

@@ -1,7 +1,11 @@
 import { readonly, ref } from 'vue'
 
+
 const text = ref<string>()
 const result = ref<string>()
+const isHex = ref<boolean>()
+const resultByteCount = ref<number>()
+
 const useHexConvertStore = () => {
 
 	const setText = (selectedText: string) => {
@@ -11,16 +15,23 @@ const useHexConvertStore = () => {
 	return {
 		setText,
 		text: readonly(text),
-		result: readonly(result)
+		result: readonly(result),
+		isHex: readonly(isHex),
+		resultByteCount: readonly(resultByteCount)
 	}
 }
 
+export default useHexConvertStore;
 
 function Convert(text: string): string {
 	// 判断是否为 Hex 字符串（包含空格和制表符）
 	const isHexWithSpacesOrTabs = /^[0-9a-fA-F\s\t]+$/.test(text);
+	
+	isHex.value = isHexWithSpacesOrTabs
 
 	if (!isHexWithSpacesOrTabs) {
+		resultByteCount.value = text.length
+
 		// 不是 Hex 字符串，直接转为 Hex 字符串，以空格分隔每个字节
 		return text
 			.split("")
@@ -36,7 +47,7 @@ function Convert(text: string): string {
 				return [hex];
 			}
 		});
-
+		resultByteCount.value = hexPairs.length
 		// 展平数组并转换为 ASCII 字符，特殊处理 0A 和 0D
 		return hexPairs
 			.flat()
@@ -54,4 +65,3 @@ function Convert(text: string): string {
 			.join("");
 	}
 }
-export default useHexConvertStore;
